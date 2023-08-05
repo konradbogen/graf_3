@@ -13,6 +13,7 @@ clean_lines = []
 
 sql = SQL (file)
 cluster = ""
+used_clusters = []
 path_toggle = False
 path_index = 0
 follow_path = -1
@@ -120,7 +121,7 @@ for line in lines:
     elif line.endswith ("?"):
         questions.append (normalized.replace ("?", ""))
     else:
-        if line not in deleted and len(line) > 2 and line.find (">") == -1:
+        if line not in deleted and len(line) > 2 and line.find ("•") == -1:
             parse_line (line)
             clean_lines.append (line.replace ("-", "").replace ("\n", ""))
             if line.startswith ("-"):
@@ -174,6 +175,7 @@ for i in range (0, n_nodes):
 
 def dfs (line):
     global output
+    global used_clusters
     incidents = sql.incident_edges (line)
     id = sql.get_id (line)
     if len (incidents) > 0:
@@ -181,20 +183,27 @@ def dfs (line):
             to = other (incident, id)
             if marked [to] == False:
                 line = sql.content_from_id (to)
+                cluster = sql.cluster_from_id (to)
+                if cluster not in used_clusters:
+                    used_clusters.append (cluster)
                 marked [to] = True
                 output += line + "\n"
                 dfs (line)
     else:
         pass
+        print_cluster(line)
 
-def answer_questions ():
-    global questions
-    for question in questions:
-        id = sql.get_id [question]
+def print_cluster(line):
+    global output
+    if line.startswith ("[") and line.endswith ("]"):
+        cluster = line.replace ("[", "").replace ("]", "")
+    else:
+        id = sql.get_id (line) 
         cluster = sql.cluster_from_id (id)
-        lines = sql.query (cluster, "t")
-        for line in lines:
-            output += "   >" + line [1] + "\n"
+    lines = sql.query (cluster, "t")
+    for c_line in lines:
+        if c_line[1] != line:
+            output += "   •" + c_line [1] + "\n"
 
 
 def other (edge, node):
@@ -212,8 +221,14 @@ def other (edge, node):
     #        output += line + "\n"
     #    last_line = line
 
+def remaining_clusters ():
+    global output
+    cs = sql.get_clusters ("t")
+    for cl in cs:
+        output += "[{cl}]".format (cl=cl[0]) + "\n"
 dfs (last_line)
-        
+if ("?" in input):
+    remaining_clusters ()
 
 if input.endswith ("\n") == False:
     input = input + "\n"

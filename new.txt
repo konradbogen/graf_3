@@ -1,8 +1,1 @@
-[Haus]
-[Fenster]
-[Tür]?
-[Müll]
-[Rolläden] lassen
-[Spülmaschine]
-[Fenster]
-[Tür]
+[Leipzig]
