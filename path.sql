@@ -1,0 +1,19 @@
+
+DROP TABLE IF EXISTS Path;
+DROP TABLE IF EXISTS is_in;
+
+CREATE TABLE Path (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+);
+
+CREATE TABLE is_in (
+    id INTEGER,
+    p_id INTEGER,
+    ix INTEGER,
+    FOREIGN KEY (id) REFERENCES Node (id),
+    FOREIGN KEY (p_id) REFERENCES Path (id)
+);
+
+INSERT INTO Path (id) VALUES (0);
+
+INSERT INTO is_in (id, p_id, ix) VALUES (0, 0, 0);

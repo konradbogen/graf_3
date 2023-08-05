@@ -1,85 +1,5 @@
-Ich schick es hoch zum [Mond]
-Bist du [Echt]
-Was ist [Echt]
-Uns re Ra ke te fliegt durchs [Nichts]
-Viel leicht war es das [Nichts]
-Durchsage an uns [Zwei]
-Mach die [Augen] auf
-Und zähl bis [Drei]
-[Tran sit] i vi tät
-Ich zähl bis [Eins]
-Ich zähl bis [Zwei]
-Die Men ge A von [V]
-[V] ent hält kein Und
-[V] ent hält kein O der
-[V] sieht aus wie O der
-O der e twa [Nichts]
-Ist das Nichts ein [Traum]
-Ich wünscht wir könn ten [Ah nen]
-Was wir [mei nen]
-Wenn wir [sa gen]
-[Nichts] ist für die Ewigkeit
-Was ist [Nichts]
-Ist das ge [Recht]?
-Links ne ben uns der [Mond]
-Ob dort wohl je mand [Wohnt]
-Mein [Name] sei
-Was ist [Rich tig]
-Mein [Name] sei
-Was ist [Rich tig]
-[Tran sit] i vi tät
-Ich zähl bis [Eins]
-Ich zähl bis [Zwei]
-Die Men ge A von [V]
-[V] ent hält kein Und
-[V] ent hält kein O der
-[V] sieht aus wie O der
-O der e twa [Nichts]
-Ist das Nichts ein [Traum]
-Ich wünscht wir könn ten [Ah nen]
-Was wir [mei nen]
-Wenn wir [sa gen]
-[Nichts] ist für die Ewigkeit
-Was ist [Nichts]
-Ist das ge [Recht]?
-Links ne ben uns der [Mond]
-Ob dort wohl je mand [Wohnt]
-Falsch kommt aus der [Lo gik]
-Wir flie gen durch die [Ma trix]
-[Tran sit] i vi tät
-Ich zähl bis [Eins]
-Ich zähl bis [Zwei]
-Die Men ge A von [V]
-[V] ent hält kein Und
-[V] ent hält kein O der
-[V] sieht aus wie O der
-O der e twa [Nichts]
-Ist das Nichts ein [Traum]
-Ich wünscht wir könn ten [Ah nen]
-Was wir [mei nen]
-Wenn wir [sa gen]
-[Nichts] ist für die Ewigkeit
-Was ist [Nichts]
-Ist das ge [Recht]?
-Links ne ben uns der [Mond]
-Ob dort wohl je mand [Wohnt]
-Die Kal kü le sind wie [Re geln]
-Wir bau en die [Ra ke te] um
-Ist das al les nur ein [Spiel]
-Meine [Da men] und Her ren
-Links ne ben uns der [Mond]
-Ob dort wohl je mand [Wohnt]
-Das Raum schiff schiesst auf [Gü ters loh]
-Oh [Gott]
-Viel leicht [Wohnt] sie dort
-Und ich zähl bis [Drei]
-[Irgendwo]
-Zwischen [Gütersloh]
-Und [Flug]büro
-Viel leicht [Wohnt] sie dort
-Wo sie in zwi schen [Wohnt]
-Ich frag mich, wo sie [Wohnt]
-In zwi schen wohnt sie auf dem [Mond]
+--In zwi schen wohnt sie auf dem [Mond]
+Gibt es da o ben [Zeit]?
 Zwi schen [Jah re]n
 Zwi schen Mond und mir sind [Jah re]
 Ich wünscht wir könn ten [Ah nen]
@@ -87,12 +7,4 @@ Was wir [mei nen]
 Wenn wir [sa gen]
 [Nichts] ist für die Ewigkeit
 Was ist [Nichts]
-Viel leicht war es das [Nichts]
-Durchsage an uns [Zwei]
-Mach die [Augen] auf
-Und zähl bis [Drei]
-[Tran sit] i vi tät
-Ich zähl bis [Eins]
-Ich zähl bis [Zwei]
-Die Men ge A von [V]
-[V] ent hält kein Und
+Viel leicht war es das [Nichts]--

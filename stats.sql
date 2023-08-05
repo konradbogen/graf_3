@@ -1,3 +1,3 @@
-SELECT cluster, AVG(syll), AVG(stress) FROM Node GROUP BY cluster;
+SELECT cluster, COUNT (*) AS count FROM Node GROUP BY cluster ORDER BY count DESC;
 
-SELECT *, COUNT (*) FROM Edge GROUP BY a ORDER BY a;
+SELECT *, COUNT (*) AS count FROM Edge GROUP BY a ORDER BY count DESC;

@@ -2,8 +2,8 @@ from sqlite3 import OperationalError
 import sqlite3
 
 class SQL:
-    def __init__ (self):
-        self.conn = sqlite3.connect('graf.db')
+    def __init__ (self, file):
+        self.conn = sqlite3.connect(file + '.db')
         self.cur = self.conn.cursor()
 
     def get_clusters(self, type):
@@ -11,6 +11,23 @@ class SQL:
         self.cur.execute (query)
         fetched = self.cur.fetchall() 
         return fetched
+    
+    def get_max_path_id (self):
+        query = "SELECT MAX(id) FROM Path;"
+        self.cur.execute (query)
+        fetched = self.cur.fetchall() 
+        return fetched[0][0]
+    
+    def add_to_path (self, id):
+        p_id = self.get_max_path_id ()
+        query = "INSERT INTO Path (id) VALUES ({p_id})".format (p_id=id);
+        self.run_sql (query)
+    
+    def insert_new_path (self):
+        max_id = self.get_max_path_id ()
+        id = max_id + 1
+        query = "INSERT INTO Path (id) VALUES ({p_id})".format (p_id=id);
+        self.run_sql (query)
     
     def get_id (self, a):
         query = "SELECT id FROM Node WHERE cont = \"" + a + "\";"
@@ -100,3 +117,7 @@ class SQL:
 
 def q (s):
     return "\"" + str (s) + "\""
+
+sql = SQL ("pad")
+sql.insert_new_path ()
+

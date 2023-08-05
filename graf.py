@@ -7,9 +7,11 @@ output = ""
 
 deleted = []
 
-sql = SQL ()
 file = "pad"
+sql = SQL (file)
 cluster = "Mond"
+path_toggle = False
+path_index = 0
 
 with open(file + '.txt') as f:
     lines = f.readlines ()
@@ -81,15 +83,33 @@ def change_cluster ():
     i = int (np.floor (np.random.rand () * len (clus))) 
     cluster = clus[i][0]
 
+def add_to_path (line):
+    a = line.replace ("\n", "").replace ("-", "")
+    global path_toggle
+    if (path_toggle == True):
+        id = sql.get_id (a)
+        
+
+def toggle_path ():
+    global path_toggle
+    if path_toggle == False:
+        path_toggle = True
+        sql.insert_new_path ()
+    else:
+        path_toggle = False
+
 i = 0
 for line in lines:
     if line.startswith ("!"):
         delete_line (line)
+    elif line.startswith ("--"):
+        toggle_path ()
     else:
         if line not in deleted and len(line) > 2:
             parse_line (line)
             if line.startswith ("-"):
                 add_edge (lines [i - 1], line)
+    add_to_path (line)
     i += 1
 
 def trigger (last_line):
@@ -107,7 +127,7 @@ def trigger (last_line):
 
 
 last_line = ""
-for i in range (0, 100):
+for i in range (0, 10):
     line = trigger (last_line)
     if line != last_line:
         output += line + "\n"
