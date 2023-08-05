@@ -14,6 +14,4 @@ CREATE TABLE is_in (
     FOREIGN KEY (p_id) REFERENCES Path (id)
 );
 
-INSERT INTO Path (id) VALUES (0);
 
-INSERT INTO is_in (id, p_id, ix) VALUES (0, 0, 0);
