@@ -1,1 +1,1 @@
-SELECT p_id FROM is_in WHERE ix = 0 AND id = 30;
+SELECT COUNT(*) FROM Edge;

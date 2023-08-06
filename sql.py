@@ -7,14 +7,39 @@ class SQL:
         self.conn = sqlite3.connect(file + '.db')
         self.cur = self.conn.cursor()
 
+    def path_start (self):
+        query = "SELECT id FROM is_in WHERE ix = 0"
+        self.cur.execute (query)
+        fetched = self.cur.fetchall ()
+        i = int (np.floor (np.random.rand () * len (fetched)))
+        return fetched [i][0]
+    
+    def n_edges (self):
+        query = "SELECT MAX(id) FROM Node;"
+        self.cur.execute (query)
+        fetched = self.cur.fetchall() 
+        if fetched[0][0] == None:
+            return 0
+        return fetched[0][0] + 1 
+
     def n_nodes (self):
         query = "SELECT MAX(id) FROM Node;"
         self.cur.execute (query)
         fetched = self.cur.fetchall() 
+        if fetched[0][0] == None:
+            return 0
+        return fetched[0][0] + 1
+
+    def n_nodes (self):
+        query = "SELECT MAX(id) FROM Node;"
+        self.cur.execute (query)
+        fetched = self.cur.fetchall() 
+        if fetched[0][0] == None:
+            return 0
         return fetched[0][0] + 1
 
     def get_clusters(self, type):
-        query = "SELECT MAX(cluster) FROM Node WHERE type = \"{ttype}\" GROUP BY cluster;".format (ttype = type)
+        query = "SELECT MAX(cluster) FROM Node GROUP BY cluster;"
         self.cur.execute (query)
         fetched = self.cur.fetchall() 
         return fetched
@@ -56,11 +81,11 @@ class SQL:
         query = "INSERT INTO Path (id) VALUES ({p_id})".format (p_id=id)
         self.run_sql (query)
     
-    def get_id (self, a):
-        query = "SELECT id FROM Node WHERE cont = \"" + a + "\";"
+    def get_id (self, con):
+        query = "SELECT id FROM Node WHERE cont = \"{a}\";".format (a = con)
         self.cur.execute (query)
-        a = self.cur.fetchall()
-        return a[0][0]
+        l = self.cur.fetchall()
+        return l[0][0]
 
     def delete (self, con):
         query = "DELETE FROM Node WHERE Node.cont = \'" + con + "\';"
@@ -118,11 +143,11 @@ class SQL:
         if len (fetched) == 0:
             return -1
         else:
-            i = int (np.random.rand () * len (fetched))
+            i = int (np.floor (np.random.rand () * len (fetched)))
             return fetched [i][0]
 
-    def query(self, clu, type):
-        query = "SELECT * FROM Node WHERE (cluster=\"{clus}\" AND type=\"{type}\");".format (clus=clu, type=type)
+    def query(self, clu):
+        query = "SELECT * FROM Node WHERE (cluster=\"{clus}\");".format (clus=clu)
         self.cur.execute (query)
         fetched = self.cur.fetchall()
         if (fetched == []):

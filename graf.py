@@ -8,7 +8,7 @@ output = ""
 deleted = []
 
 questions = []
-file = "new"
+file = "song"
 clean_lines = []
 
 sql = SQL (file)
@@ -98,8 +98,9 @@ def add_to_path (line):
     a = line.replace ("\n", "").replace ("-", "")
     global path_toggle
     if (path_toggle == True):
-        id = sql.get_id (a)
-        sql.add_to_path (id)        
+        if a != "":
+            id = sql.get_id (a)
+            sql.add_to_path (id)        
 
 def toggle_path ():
     global path_toggle
@@ -112,21 +113,21 @@ def toggle_path ():
 i = 0
 for line in lines:
     normalized = line.replace ("\n", "")
-    if line.startswith ("!") == False:
-        input += line.replace ("-", "")
+    if line.startswith ("--"):
+        toggle_path ()
+    if normalized.endswith ("?"):
+        questions.append (normalized.replace ("?", ""))
     if line.startswith ("!"):
         delete_line (line)
-    elif line.startswith ("--"):
-        toggle_path ()
-    elif line.endswith ("?"):
-        questions.append (normalized.replace ("?", ""))
     else:
-        if line not in deleted and len(line) > 2 and line.find ("•") == -1:
+        if line not in deleted and len(line) > 2 and line.find ("•") == -1 and line.find ("?") == -1:
+            line = line.replace ("-", "")
+            input += line
             parse_line (line)
             clean_lines.append (line.replace ("-", "").replace ("\n", ""))
             if line.startswith ("-"):
                 add_edge (lines [i - 1], line)
-    add_to_path (line)
+            add_to_path (line)
     i += 1
 
 def trigger (last_line):
@@ -150,14 +151,16 @@ def trigger (last_line):
             check_for_path_start (to)
             return line
     global output
-    lines = sql.query (cluster, "t")
+    lines = sql.query (cluster)
     i = int (np.floor (np.random.rand () * len (lines)))
     check_for_path_start (lines [i][0])
     return lines [i][1] 
 
 def check_for_path_start (id):
     global follow_path
+    global cur_path_ix
     follow_path = sql.is_path_start (id)
+    cur_path_ix = 0
     return follow_path
 
 last_line = ""
@@ -173,11 +176,28 @@ n_nodes = sql.n_nodes ()
 for i in range (0, n_nodes):
     marked.append (False)
 
+of_stop = 0
 def dfs (line):
     global output
     global used_clusters
+    global follow_path
+    global cur_path_ix
+    global of_stop
+    of_stop += 1
     incidents = sql.incident_edges (line)
     id = sql.get_id (line)
+    check_for_path_start (id)
+    while follow_path != -1:
+        id = sql.get_id_at_ix (follow_path, cur_path_ix)
+        p_line = sql.content_from_id (id)
+        output += p_line + "\n"
+        check_for_path_start (id)
+        #print_cluster(p_line)
+        if cur_path_ix == sql.get_last_index (follow_path):
+            follow_path = -1
+            cur_path_ix = 0
+        else:
+            cur_path_ix += 1
     if len (incidents) > 0:
         for incident in incidents:
             to = other (incident, id)
@@ -188,10 +208,15 @@ def dfs (line):
                     used_clusters.append (cluster)
                 marked [to] = True
                 output += line + "\n"
+                #print_cluster(line)
                 dfs (line)
     else:
-        pass
-        print_cluster(line)
+        print ("0")
+        id = sql.path_start ()
+        line = sql.content_from_id (id)
+        if of_stop < 200:
+            dfs (line)
+
 
 def print_cluster(line):
     global output
@@ -200,10 +225,10 @@ def print_cluster(line):
     else:
         id = sql.get_id (line) 
         cluster = sql.cluster_from_id (id)
-    lines = sql.query (cluster, "t")
+    lines = sql.query (cluster)
     for c_line in lines:
         if c_line[1] != line:
-            output += "   •" + c_line [1] + "\n"
+            output += "                •" + c_line [1] + "\n"
 
 
 def other (edge, node):
@@ -213,27 +238,33 @@ def other (edge, node):
         return edge [0]
 
 #if "?" in input:
-   #for i in range (0, 10):
-    #    line = trigger (last_line)
-    #    if line == None:
-    #        break
-    #    if line != last_line:
-    #        output += line + "\n"
-    #    last_line = line
+for i in range (0, 10):
+    line = trigger (last_line)
+    if line == None:
+        break
+    if line != last_line:
+        output += line + "\n"
+    last_line = line
 
 def remaining_clusters ():
     global output
     cs = sql.get_clusters ("t")
     for cl in cs:
         output += "[{cl}]".format (cl=cl[0]) + "\n"
-dfs (last_line)
-if ("?" in input):
-    remaining_clusters ()
+
+if last_line != "":
+    dfs (last_line)
+for q in questions:
+    if q.find ("•") == -1:
+        print_cluster(q)
+    pass
 
 if input.endswith ("\n") == False:
     input = input + "\n"
+print (input + output)
 with open(file + '.txt', 'w') as f:
     f.write (input + output)
+
 
 
 
