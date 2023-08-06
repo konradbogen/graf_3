@@ -81,6 +81,12 @@ class SQL:
         query = "INSERT INTO Path (id) VALUES ({p_id})".format (p_id=id)
         self.run_sql (query)
     
+    def exists (self, id):
+        query = "SELECT * FROM Node WHERE id = {id};".format (id = id)
+        self.cur.execute (query)
+        l = self.cur.fetchall()
+        return len (l) > 0
+    
     def get_id (self, con):
         query = "SELECT id FROM Node WHERE cont = \"{a}\";".format (a = con)
         self.cur.execute (query)
@@ -184,6 +190,8 @@ class SQL:
 
 def q (s):
     return "\"" + str (s) + "\""
+
+
 
 
 

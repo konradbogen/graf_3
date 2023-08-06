@@ -8,7 +8,7 @@ output = ""
 deleted = []
 
 questions = []
-file = "song"
+file = "m"
 clean_lines = []
 
 sql = SQL (file)
@@ -20,7 +20,9 @@ follow_path = -1
 cur_path_ix = 0
 
 with open(file + '.txt') as f:
-    lines = f.readlines ()
+    t = f.read ()
+    lines = t.split (";")
+    print (lines)
 
 def parse_line (line):
     cluster = get_cluster (line)
@@ -31,8 +33,7 @@ def parse_line (line):
 def delete_line (line):
     cont = line.replace ("!", "")
     deleted.append (cont)
-    acont = cont.replace ("\n", "")
-    sql.delete (acont)
+    sql.delete (cont)
 
 def remove_brackets(content):
     content = content.replace ("[", "")
@@ -62,12 +63,12 @@ def get_content(line):
         type = "m"
     else:
         type = "t"
-    content = line.strip ().replace ("-", "").replace ("\n", "")
+    content = line.strip ().replace ("-", "")
     if "(" in line:
         type = "m"
         h_s, h_e = get_bracket_indices (line, "(", ")")
         harm = line[h_s+1:h_e:1]
-        content = line [0:h_s:1].replace ("\n", "")
+        content = line [0:h_s:1]
     return harm,type,content
 
 def get_cluster(line):
@@ -81,7 +82,7 @@ def get_bracket_indices (line, open, close):
     return s, e
 
 def add_edge (a, b):
-    a = a.replace ("\n", "").replace ("-", "")
+    a = a.replace ("-", "")
     b = b.replace ("\n", "").replace ("-", "")
     a_id = sql.get_id (a)
     b_id = sql.get_id (b)
@@ -201,7 +202,7 @@ def dfs (line):
     if len (incidents) > 0:
         for incident in incidents:
             to = other (incident, id)
-            if marked [to] == False:
+            if marked [to] == False and sql.exists (to):
                 line = sql.content_from_id (to)
                 cluster = sql.cluster_from_id (to)
                 if cluster not in used_clusters:
@@ -212,10 +213,10 @@ def dfs (line):
                 dfs (line)
     else:
         print ("0")
-        id = sql.path_start ()
-        line = sql.content_from_id (id)
-        if of_stop < 200:
-            dfs (line)
+        #id = sql.path_start ()
+        #line = sql.content_from_id (id)
+        #if of_stop < 200:
+            #dfs (line)
 
 
 def print_cluster(line):
@@ -228,7 +229,7 @@ def print_cluster(line):
     lines = sql.query (cluster)
     for c_line in lines:
         if c_line[1] != line:
-            output += "                •" + c_line [1] + "\n"
+            output += c_line [1] + "\n"
 
 
 def other (edge, node):
@@ -238,13 +239,13 @@ def other (edge, node):
         return edge [0]
 
 #if "?" in input:
-for i in range (0, 10):
+""" for i in range (0, 10):
     line = trigger (last_line)
     if line == None:
         break
     if line != last_line:
         output += line + "\n"
-    last_line = line
+    last_line = line """
 
 def remaining_clusters ():
     global output
